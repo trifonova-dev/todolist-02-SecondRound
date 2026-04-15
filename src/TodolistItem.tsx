@@ -1,14 +1,21 @@
-import type {TaskType} from './App'
+import {FilterValueType, TaskType} from './App'
 import {Button} from './Button'
 
 type TodolistItemType = {
     title: string
     tasks: TaskType[]
-    deleteTask: (taskId: TaskType["id"]) => void
+    deleteTasks: (taskId: TaskType["id"]) => void
+    changeTodolistFilter: (filter: FilterValueType) => void
+
 
 }
 
-export const TodolistItem = ({title, tasks,deleteTask}: TodolistItemType) => {
+const TodolistItem = ({
+                          title,
+                          tasks,
+                          deleteTasks,
+                          changeTodolistFilter
+                      }: TodolistItemType) => {
     return (
         <div>
             <h3>{title}</h3>
@@ -26,18 +33,26 @@ export const TodolistItem = ({title, tasks,deleteTask}: TodolistItemType) => {
                                 <input type="checkbox" checked={task.isDone}/>
                                 <span>{task.title}</span>
                                 <Button
-                                    onClick={() => {deleteTask(task.id)}}
-                                    title={"X"}/>
+                                    title={"хуй"}
+                                    onClick={() => deleteTasks(task.id)}
+                                />
                             </li>
                         )
                     })}
                 </ul>
             )}
             <div>
-                <Button title={'All'}/>
-                <Button title={'Active'}/>
-                <Button title={'Completed'}/>
+                <Button
+                    onClick={() => changeTodolistFilter("All")}
+                    title={'All'}/>
+                <Button
+                    onClick={() => changeTodolistFilter("Active")}
+                    title={'Active'}/>
+                <Button
+                    onClick={() => changeTodolistFilter("Completed")}
+                    title={'Completed'}/>
             </div>
         </div>
     )
 }
+export default TodolistItem

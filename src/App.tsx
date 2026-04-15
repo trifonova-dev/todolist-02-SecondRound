@@ -1,5 +1,7 @@
 import './App.css'
-import {TodolistItem} from './TodolistItem'
+import TodolistItem from './TodolistItem'
+import {useState} from "react";
+import {getFilterTasks} from "./Utilites/getFilteredTasks.ts";
 
 export type TaskType = {
     id: number
@@ -7,10 +9,12 @@ export type TaskType = {
     isDone: boolean
 }
 
+export type FilterValueType = "All" | "Completed" | "Active"
+
 const todolistTitle = "What to learn";
 
 export const App = () => {
-    let tasks: TaskType[] =
+    const [tasks, setTasks] = useState<TaskType[]>(
         [
             {id: 1, title: 'HTML&CSS', isDone: true},
             {id: 2, title: 'JS', isDone: true},
@@ -18,20 +22,23 @@ export const App = () => {
             {id: 4, title: 'Redux', isDone: false},
             {id: 5, title: 'Typescript', isDone: false},
             {id: 6, title: 'RTK query', isDone: false},
-        ]
+        ])
 
-    const deleteTask = (taskId: TaskType["id"]) => {
-        const nextTaskState = tasks.filter(t => t.id !== taskId)
-        tasks=nextTaskState
-        console.log(tasks)
+    const deleteTasks = (taskId: TaskType["id"]) => {
+        const newFiltredTasks = tasks.filter(t => t.id !== taskId)
+        setTasks(newFiltredTasks)
     }
 
+    const [filter, setFilter] = useState<FilterValueType>("Completed")
+
+    const cnangeTodolistFilter = (filter: FilterValueType) => setFilter(filter)
     return (
         <div className="app">
             <TodolistItem
                 title={todolistTitle}
-                tasks={tasks}
-                deleteTask={deleteTask}
+                tasks={getFilterTasks(tasks,filter)}
+                deleteTasks={deleteTasks}
+                changeTodolistFilter={cnangeTodolistFilter}
             />
         </div>
     )
