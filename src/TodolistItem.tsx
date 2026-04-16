@@ -1,21 +1,22 @@
-import {FilterValueType, TaskType} from './App'
 import {Button} from './Button'
+import {FilterValueType, TaskType} from "./App.tsx";
+
 
 type TodolistItemType = {
     title: string
     tasks: TaskType[]
-    deleteTasks: (taskId: TaskType["id"]) => void
-    changeTodolistFilter: (filter: FilterValueType) => void
+    deleteTask: (taskId: TaskType["id"]) => void
+    changeFilter: (filter: FilterValueType) => void
 
 
 }
 
-const TodolistItem = ({
-                          title,
-                          tasks,
-                          deleteTasks,
-                          changeTodolistFilter
-                      }: TodolistItemType) => {
+export const TodolistItem = ({
+                                 title,
+                                 tasks,
+                                 deleteTask,
+                                 changeFilter,
+                             }: TodolistItemType) => {
     return (
         <div>
             <h3>{title}</h3>
@@ -33,9 +34,8 @@ const TodolistItem = ({
                                 <input type="checkbox" checked={task.isDone}/>
                                 <span>{task.title}</span>
                                 <Button
-                                    title={"хуй"}
-                                    onClick={() => deleteTasks(task.id)}
-                                />
+                                    title={"X"}
+                                    onClick={() => deleteTask(task.id)}/>
                             </li>
                         )
                     })}
@@ -43,16 +43,19 @@ const TodolistItem = ({
             )}
             <div>
                 <Button
-                    onClick={() => changeTodolistFilter("All")}
-                    title={'All'}/>
+                    title={'All'}
+                    onClick={()=> changeFilter("All")}
+                />
                 <Button
-                    onClick={() => changeTodolistFilter("Active")}
-                    title={'Active'}/>
+                    title={'Active'}
+                    onClick={()=> changeFilter("Active")}
+                />
                 <Button
-                    onClick={() => changeTodolistFilter("Completed")}
-                    title={'Completed'}/>
+                    title={'Completed'}
+                    onClick={()=> changeFilter("Completed")}
+
+                />
             </div>
         </div>
     )
 }
-export default TodolistItem
